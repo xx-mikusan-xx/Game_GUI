@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel {
 
@@ -10,28 +10,47 @@ public class GamePanel extends JPanel {
     private String text;
     private int charIndex = 0;
     private boolean showEnterMessage = false;
+    private Timer timer;
 
     public GamePanel(String name, String gender) {
         this.name = name;
         this.gender = gender;
-        this.text = "かつて、平和な王国「エルデンリア」は光の力によって繁栄していました。しかし、闇の勢力が復活し、王国に混乱と恐怖が広がり始めます。プレイヤー名は「選ばれし者」として、光と闇のバランスを取り戻すための冒険に出ます。";
+        this.text = "かつて、平和な王国「エルデンリア」は光の力によって繁栄していました。しかし、闇の勢力が復活し、王国に混乱と恐怖が広がり始めます。" + name + "は「選ばれし者」として、光と闇のバランスを取り戻すための冒険に出ます。";
         initPanel();
-        startTextAnimation();
+        startTextDisplay();
     }
 
     private void initPanel() {
         setFocusable(true);
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
-        addKeyListener(new KeyAdapter() {
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "enterPressed");
+        getActionMap().put("enterPressed", new AbstractAction() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && showEnterMessage) {
-                    // Next screen transition code goes here
+            public void actionPerformed(ActionEvent e) {
+                if (showEnterMessage) {
                     System.out.println("Enter key pressed. Transition to the next screen.");
+                    transitionToNextScreen();
                 }
             }
         });
+    }
+
+    private void startTextDisplay() {
+        timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (charIndex < text.length()) {
+                    charIndex++;
+                    repaint();
+                } else {
+                    showEnterMessage = true;
+                    timer.stop();
+                    repaint();
+                }
+            }
+        });
+        timer.start();
     }
 
     @Override
@@ -65,24 +84,21 @@ public class GamePanel extends JPanel {
     }
 
     private void drawEnterMessage(Graphics g) {
-        g.setFont(new Font("Arial", Font.BOLD, 16));
-        g.setColor(Color.WHITE);
+        // Set font and color for drawing the enter message
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.setColor(Color.YELLOW);
+
+        // Draw the enter message at the bottom right corner
         String message = "エンターキーを押してください";
-        int stringWidth = g.getFontMetrics().stringWidth(message);
-        g.drawString(message, getWidth() - stringWidth - 10, getHeight() - 10);
+        int x = getWidth() - g.getFontMetrics().stringWidth(message) - 20;
+        int y = getHeight() - 30;
+        g.drawString(message, x, y);
     }
 
-    private void startTextAnimation() {
-        Timer timer = new Timer(300, e -> { // Set the interval to 300 milliseconds
-            charIndex++;
-            if (charIndex > text.length()) {
-                ((Timer) e.getSource()).stop();
-                showEnterMessage = true;
-                repaint();
-            } else {
-                repaint();
-            }
-        });
-        timer.start();
+    private void transitionToNextScreen() {
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (topFrame instanceof Main) {
+            ((Main) topFrame).switchToWeaponSelection();
+        }
     }
 }
