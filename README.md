@@ -1,22 +1,25 @@
-クラス分け
+# クラス分け
 
-共通で使えるクラスとメソッド
-		GameManeger
+## 共通で使えるクラスとメソッド
+- GameManeger
+  
+プレイヤー:Player
 
-プレイヤー	Player
-敵		Monster
-戦闘		Battle
+敵:Monster
 
+戦闘:Battle
 
+## 独立させるクラスとメソッド
+- メインクラス:Main
+- タイトル:TitleScreen
+- キャラ選択:CharacterSelectionScreen
+- プロローグ:GamePanel
 
-メインクラス	Main
-タイトル	TitleScreen
-キャラ選択	CharacterSelectionScreen
-プロローグ	GamePanel
+武器選択:WeaponSelection
 
-武器選択	WeaponSelection
-仲間選択	CompanilnSelction
+仲間選択:CompanilnSelction
 
+## ゲーム本体
 第一章		
 
 
