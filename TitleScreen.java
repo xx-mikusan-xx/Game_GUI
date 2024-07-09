@@ -48,8 +48,8 @@ public class TitleScreen extends JPanel {
 
     private void startCharacterSelection() {
         frame.getContentPane().removeAll();
-        CharacterSelectionScreen characterSelectionScreen = new CharacterSelectionScreen(frame);
-        frame.add(characterSelectionScreen);
+        CharacterSelectionScreen CharacterSelectionScreen = new CharacterSelectionScreen(frame);
+        frame.add(CharacterSelectionScreen);
         frame.revalidate();
         frame.repaint();
     }

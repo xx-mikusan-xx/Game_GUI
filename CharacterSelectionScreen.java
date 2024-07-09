@@ -23,19 +23,30 @@ public class CharacterSelectionScreen extends JPanel {
         add(titleLabel, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridLayout(3, 2));
+        formPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.WEST;
 
+        // Name label and text field
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setFont(new Font("Serif", Font.PLAIN, 24));
-        formPanel.add(nameLabel);
+        formPanel.add(nameLabel, gbc);
 
-        nameField = new JTextField();
-        formPanel.add(nameField);
+        gbc.gridx = 1;
+        nameField = new JTextField(15);
+        formPanel.add(nameField, gbc);
 
+        // Gender label and radio buttons
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         JLabel genderLabel = new JLabel("Gender:");
         genderLabel.setFont(new Font("Serif", Font.PLAIN, 24));
-        formPanel.add(genderLabel);
+        formPanel.add(genderLabel, gbc);
 
+        gbc.gridx = 1;
         JPanel genderPanel = new JPanel();
         maleButton = new JRadioButton("Male");
         femaleButton = new JRadioButton("Female");
@@ -44,10 +55,11 @@ public class CharacterSelectionScreen extends JPanel {
         genderGroup.add(femaleButton);
         genderPanel.add(maleButton);
         genderPanel.add(femaleButton);
-        formPanel.add(genderPanel);
+        formPanel.add(genderPanel, gbc);
 
         add(formPanel, BorderLayout.CENTER);
 
+        // Start game button
         JPanel buttonPanel = new JPanel();
         JButton startButton = new JButton("Start Game");
         startButton.setFont(new Font("Serif", Font.PLAIN, 24));
