@@ -10,7 +10,6 @@ public class Main extends JFrame {
     private void initUI() {
         setTitle("RPG Game");
 
-        // Add the initial screen (TitleScreen, GamePanel, etc.)
         add(new TitleScreen(this));
 
         setSize(800, 600);
@@ -18,9 +17,16 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    public void switchToGamePanel(String name, String gender) {
+    public void switchToCharacterSelection() {
         getContentPane().removeAll();
-        add(new GamePanel(name, gender));
+        add(new CharacterSelectionScreen(this));
+        revalidate();
+        repaint();
+    }
+
+    public void switchToGamePanel() {
+        getContentPane().removeAll();
+        add(new GamePanel());
         revalidate();
         repaint();
     }
