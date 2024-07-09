@@ -5,17 +5,15 @@ import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel {
 
-    private String name;
-    private String gender;
     private String text;
     private int charIndex = 0;
     private boolean showEnterMessage = false;
     private Timer timer;
 
-    public GamePanel(String name, String gender) {
-        this.name = name;
-        this.gender = gender;
-        this.text = "かつて、平和な王国「エルデンリア」は光の力によって繁栄していました。しかし、闇の勢力が復活し、王国に混乱と恐怖が広がり始めます。" + this.name + "は「選ばれし者」として、光と闇のバランスを取り戻すための冒険に出ます。";
+    public GamePanel() {
+        String name = GameManager.getInstance().getPlayerName();
+        String gender = GameManager.getInstance().getPlayerGender();
+        this.text = "かつて、平和な王国「エルデンリア」は光の力によって繁栄していました。しかし、闇の勢力が復活し、王国に混乱と恐怖が広がり始めます。" + name + "は「選ばれし者」として、光と闇のバランスを取り戻すための冒険に出ます。";
         initPanel();
         startTextDisplay();
     }

@@ -82,8 +82,11 @@ public class CharacterSelectionScreen extends JPanel {
             return;
         }
 
+        GameManager.getInstance().setPlayerName(name);
+        GameManager.getInstance().setPlayerGender(gender);
+
         frame.getContentPane().removeAll();
-        GamePanel gamePanel = new GamePanel(name, gender);
+        GamePanel gamePanel = new GamePanel();
         frame.add(gamePanel);
         frame.revalidate();
         frame.repaint();
