@@ -11,9 +11,9 @@ public class GamePanel extends JPanel {
     private Timer timer;
 
     public GamePanel() {
-        String name = GameManager.getInstance().getPlayerName();
-        String gender = GameManager.getInstance().getPlayerGender();
-        this.text = "かつて、平和な王国「エルデンリア」は光の力によって繁栄していました。しかし、闇の勢力が復活し、王国に混乱と恐怖が広がり始めます。" + name + "は「選ばれし者」として、光と闇のバランスを取り戻すための冒険に出ます。";
+        Player player = GameManager.getInstance().getPlayer();
+        this.text = "かつて、平和な王国「エルデンリア」は光の力によって繁栄していました。しかし、闇の勢力が復活し、王国に混乱と恐怖が広がり始めます。" 
+                    + player.getName() + "は「選ばれし者」として、光と闇のバランスを取り戻すための冒険に出ます。";
         initPanel();
         startTextDisplay();
     }
@@ -61,32 +61,24 @@ public class GamePanel extends JPanel {
     }
 
     private void drawCharacterInfo(Graphics g) {
-        // Set font and color for drawing text
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.setColor(Color.WHITE);
-
-        // Define the position to start drawing the text
         int x = 50;
         int y = 50;
-
-        // Draw each character of the text one by one up to the current index
         for (int i = 0; i < charIndex; i++) {
             char c = text.charAt(i);
             g.drawString(String.valueOf(c), x, y);
-            x += 15; // Increase the x-coordinate to create a horizontal shift
-            if (x >= getWidth() - 50) { // If the x-coordinate exceeds the panel width, move to the next line
+            x += 15;
+            if (x >= getWidth() - 50) {
                 x = 50;
-                y += 30; // Increase the y-coordinate to create a vertical shift
+                y += 30;
             }
         }
     }
 
     private void drawEnterMessage(Graphics g) {
-        // Set font and color for drawing the enter message
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.setColor(Color.YELLOW);
-
-        // Draw the enter message at the bottom right corner
         String message = "エンターキーを押してください";
         int x = getWidth() - g.getFontMetrics().stringWidth(message) - 20;
         int y = getHeight() - 30;
@@ -96,7 +88,7 @@ public class GamePanel extends JPanel {
     private void transitionToNextScreen() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame instanceof Main) {
-            ((Main) topFrame).switchToWeaponSelection();
+            ((Main) topFrame).switchToGamePanel();
         }
     }
 }
