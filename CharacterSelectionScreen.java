@@ -82,12 +82,12 @@ public class CharacterSelectionScreen extends JPanel {
             return;
         }
 
-        Player player = new Player(name, gender, null);
+        Player player = new Player(name, 100, 50, 20);
         GameManager.getInstance().setPlayer(player);
 
         frame.getContentPane().removeAll();
-        WeaponSelectionPanel weaponSelectionPanel = new WeaponSelectionPanel(frame);
-        frame.add(weaponSelectionPanel);
+        GamePanel GamePanel = new GamePanel();
+        frame.add(GamePanel);
         frame.revalidate();
         frame.repaint();
     }
