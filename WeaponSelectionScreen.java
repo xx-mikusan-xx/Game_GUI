@@ -21,35 +21,35 @@ public class WeaponSelectionScreen extends JPanel {
         JPanel weaponPanel = new JPanel();
         weaponPanel.setLayout(new GridLayout(3, 1));
 
-        JButton swordButton = new JButton("剣");
-        swordButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectWeapon("剣", 15);
-            }
-        });
-
-        JButton axeButton = new JButton("斧");
-        axeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectWeapon("斧", 20);
-            }
-        });
-
-        JButton bowButton = new JButton("弓");
-        bowButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectWeapon("弓", 10);
-            }
-        });
-
-        weaponPanel.add(swordButton);
-        weaponPanel.add(axeButton);
-        weaponPanel.add(bowButton);
+        weaponPanel.add(createWeaponPanel("剣", "img/sword.png", 15));
+        weaponPanel.add(createWeaponPanel("弓", "img/bow.png", 20));
+        weaponPanel.add(createWeaponPanel("魔法の杖", "img/stick.png", 10));
 
         add(weaponPanel, BorderLayout.CENTER);
+    }
+
+    private JPanel createWeaponPanel(String weaponName, String imagePath, int weaponPower) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JLabel nameLabel = new JLabel(weaponName, SwingConstants.CENTER);
+        nameLabel.setFont(new Font("Serif", Font.BOLD, 24));
+        panel.add(nameLabel, BorderLayout.WEST);
+
+        ImageIcon weaponIcon = new ImageIcon(imagePath);
+        JLabel imageLabel = new JLabel(weaponIcon);
+        panel.add(imageLabel, BorderLayout.CENTER);
+
+        JButton selectButton = new JButton("選択");
+        selectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectWeapon(weaponName, weaponPower);
+            }
+        });
+        panel.add(selectButton, BorderLayout.EAST);
+
+        return panel;
     }
 
     private void selectWeapon(String weaponName, int weaponPower) {
@@ -58,7 +58,6 @@ public class WeaponSelectionScreen extends JPanel {
         Weapon weapon = new Weapon(weaponName, weaponPower);
         GameManager.getInstance().setWeapon(weapon);
 
-        // 次のチャプターに遷移
         if (frame instanceof Main) {
             ((Main) frame).switchToChapter1();
         }
