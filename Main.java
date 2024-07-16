@@ -31,13 +31,6 @@ public class Main extends JFrame {
         repaint();
     }
 
-    public void switchToWeaponSelection() {
-        getContentPane().removeAll();
-        add(new WeaponSelectionPanel());
-        revalidate();
-        repaint();
-    }
-
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             Main ex = new Main();

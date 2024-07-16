@@ -1,70 +1,78 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class WeaponSelectionPanel extends JPanel {
 
-    private ImageIcon[] weaponIcons;
-    private int selectedWeaponIndex = 0;
+    private JFrame frame;
+    private JRadioButton swordButton;
+    private JRadioButton bowButton;
+    private JRadioButton staffButton;
 
-    public WeaponSelectionPanel() {
-        loadWeaponImages();
-        initPanel();
+    public WeaponSelectionPanel(JFrame frame) {
+        this.frame = frame;
+        initUI();
     }
 
-    private void loadWeaponImages() {
-        // Load weapon images from files or resources
-        // This is an example using placeholder images, replace with actual image file paths
-        weaponIcons = new ImageIcon[]{
-            new ImageIcon("path/to/weapon1.png"),
-            new ImageIcon("path/to/weapon2.png"),
-            new ImageIcon("path/to/weapon3.png")
-        };
-    }
+    private void initUI() {
+        setLayout(new BorderLayout());
 
-    private void initPanel() {
-        setFocusable(true);
-        setBackground(Color.BLACK);
-        setDoubleBuffered(true);
-        addKeyListener(new KeyAdapter() {
+        JLabel titleLabel = new JLabel("Weapon Selection", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 32));
+        add(titleLabel, BorderLayout.NORTH);
+
+        JPanel weaponPanel = new JPanel();
+        weaponPanel.setLayout(new GridLayout(3, 1));
+
+        swordButton = new JRadioButton("Sword");
+        bowButton = new JRadioButton("Bow");
+        staffButton = new JRadioButton("Staff");
+        ButtonGroup weaponGroup = new ButtonGroup();
+        weaponGroup.add(swordButton);
+        weaponGroup.add(bowButton);
+        weaponGroup.add(staffButton);
+
+        weaponPanel.add(swordButton);
+        weaponPanel.add(bowButton);
+        weaponPanel.add(staffButton);
+        add(weaponPanel, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel();
+        JButton confirmButton = new JButton("Confirm");
+        confirmButton.setFont(new Font("Serif", Font.PLAIN, 24));
+        confirmButton.addActionListener(new ActionListener() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    selectedWeaponIndex = (selectedWeaponIndex - 1 + weaponIcons.length) % weaponIcons.length;
-                    repaint();
-                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    selectedWeaponIndex = (selectedWeaponIndex + 1) % weaponIcons.length;
-                    repaint();
-                } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    // Logic to confirm weapon selection and proceed
-                    System.out.println("Weapon selected: " + selectedWeaponIndex);
-                }
+            public void actionPerformed(ActionEvent e) {
+                confirmWeaponSelection();
             }
         });
+        buttonPanel.add(confirmButton);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        drawWeapons(g);
-    }
+    private void confirmWeaponSelection() {
+        String selectedWeapon = null;
+        if (swordButton.isSelected()) {
+            selectedWeapon = "Sword";
+        } else if (bowButton.isSelected()) {
+            selectedWeapon = "Bow";
+        } else if (staffButton.isSelected()) {
+            selectedWeapon = "Staff";
+        }
 
-    private void drawWeapons(Graphics g) {
-        // Set font and color for drawing text
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.setColor(Color.WHITE);
+        if (selectedWeapon == null) {
+            JOptionPane.showMessageDialog(this, "Please select a weapon.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-        // Draw the selected weapon in the center
-        ImageIcon selectedWeapon = weaponIcons[selectedWeaponIndex];
-        int x = (getWidth() - selectedWeapon.getIconWidth()) / 2;
-        int y = (getHeight() - selectedWeapon.getIconHeight()) / 2;
-        g.drawImage(selectedWeapon.getImage(), x, y, this);
+        Player player = GameManager.getInstance().getPlayer();
+        player.setWeapon(selectedWeapon);
 
-        // Draw weapon navigation instructions
-        String message = "左右キーで武器を選択、エンターキーで決定";
-        int msgX = (getWidth() - g.getFontMetrics().stringWidth(message)) / 2;
-        int msgY = getHeight() - 30;
-        g.drawString(message, msgX, msgY);
+        frame.getContentPane().removeAll();
+        GamePanel gamePanel = new GamePanel();
+        frame.add(gamePanel);
+        frame.revalidate();
+        frame.repaint();
     }
 }
