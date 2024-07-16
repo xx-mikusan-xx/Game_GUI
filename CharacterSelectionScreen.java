@@ -61,7 +61,7 @@ public class CharacterSelectionScreen extends JPanel {
 
         // Start game button
         JPanel buttonPanel = new JPanel();
-        JButton startButton = new JButton("Start Game");
+        JButton startButton = new JButton("Next");
         startButton.setFont(new Font("Serif", Font.PLAIN, 24));
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -82,12 +82,12 @@ public class CharacterSelectionScreen extends JPanel {
             return;
         }
 
-        GameManager.getInstance().setPlayerName(name);
-        GameManager.getInstance().setPlayerGender(gender);
+        Player player = new Player(name, gender, null);
+        GameManager.getInstance().setPlayer(player);
 
         frame.getContentPane().removeAll();
-        GamePanel gamePanel = new GamePanel();
-        frame.add(gamePanel);
+        WeaponSelectionPanel weaponSelectionPanel = new WeaponSelectionPanel(frame);
+        frame.add(weaponSelectionPanel);
         frame.revalidate();
         frame.repaint();
     }
