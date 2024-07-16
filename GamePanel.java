@@ -27,7 +27,6 @@ public class GamePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (showEnterMessage) {
-                    System.out.println("Enter key pressed. Transition to the next screen.");
                     transitionToNextScreen();
                 }
             }
@@ -88,7 +87,7 @@ public class GamePanel extends JPanel {
     private void transitionToNextScreen() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame instanceof Main) {
-            ((Main) topFrame).switchToGamePanel();
+            ((Main) topFrame).switchToWeaponSelection();
         }
     }
 }
