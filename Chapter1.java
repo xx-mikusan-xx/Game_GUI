@@ -22,7 +22,7 @@ public class Chapter1 extends JPanel {
         initUI();
     }
 
-    public void initUI() {
+    private void initUI() {
         setLayout(new BorderLayout());
 
         // たたかう・逃げるボタン
@@ -50,7 +50,7 @@ public class Chapter1 extends JPanel {
         battle1(true);
     }
 
-    public void battle1(boolean fight) {
+    private void battle1(boolean fight) {
         if (fight) {
             Battle battle1 = new Battle();
             battle1.fight(player, 20);
@@ -66,7 +66,7 @@ public class Chapter1 extends JPanel {
         selectPath1();
     }
 
-    public void selectPath1() {
+    private void selectPath1() {
         // 道選択ボタン
         leftButton = new JButton("左");
         straightButton = new JButton("直進");
@@ -99,19 +99,19 @@ public class Chapter1 extends JPanel {
         add(pathPanel, BorderLayout.NORTH);
     }
 
-    public void handleLeftPath() {
+    private void handleLeftPath() {
         Battle battle2 = new Battle();
         battle2.fight(player, 10);  // 弱い敵
     }
 
-    public void handleStraightPath() {
+    private void handleStraightPath() {
         Battle battle3 = new Battle();
         battle3.fight(player, 50);  // 強い敵
         player.setExperience(player.getExperience() + 500);
         weapon.setPower(weapon.getPower() + 10);  // 強い武器を手に入れる
     }
 
-    public void handleRightPath() {
+    private void handleRightPath() {
         Random rand = new Random();
         if (companion.getName().equals("カルロス")) {
             if (rand.nextInt(100) < 70) {
@@ -124,7 +124,7 @@ public class Chapter1 extends JPanel {
         }
     }
 
-    public void handleTrap() {
+    private void handleTrap() {
         Object[] options = {"罠を解除", "リアナ王女の魔法", "罠を無視"};
         int choice = JOptionPane.showOptionDialog(this, "罠に遭遇しました。どうしますか？", "選択", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
@@ -152,7 +152,7 @@ public class Chapter1 extends JPanel {
         }
     }
 
-    public void treasureBox() {
+    private void treasureBox() {
         Random rand = new Random();
         int item = rand.nextInt(3);
 
