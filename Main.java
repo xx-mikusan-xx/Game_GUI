@@ -31,6 +31,23 @@ public class Main extends JFrame {
         repaint();
     }
 
+    public void switchToWeaponSelection() {
+        getContentPane().removeAll();
+        add(new WeaponSelectionScreen(this));
+        revalidate();
+        repaint();
+    }
+
+    public void switchToChapter1() {
+        Player player = GameManager.getInstance().getPlayer();
+        Weapon weapon = GameManager.getInstance().getWeapon();
+        Companion companion = new Companion("カルロス");
+        getContentPane().removeAll();
+        add(new Chapter1(player, weapon, companion));
+        revalidate();
+        repaint();
+    }
+
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             Main ex = new Main();
