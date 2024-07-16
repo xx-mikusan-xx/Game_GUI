@@ -76,13 +76,14 @@ public class CharacterSelectionScreen extends JPanel {
     private void startGame() {
         String name = nameField.getText();
         String gender = maleButton.isSelected() ? "Male" : "Female";
-
+        
         if (name.isEmpty() || (!maleButton.isSelected() && !femaleButton.isSelected())) {
             JOptionPane.showMessageDialog(this, "Please enter a name and select a gender.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         Player player = new Player(name, 100, 50, 20);
+        player.setGender(gender);
         GameManager.getInstance().setPlayer(player);
 
         frame.getContentPane().removeAll();
