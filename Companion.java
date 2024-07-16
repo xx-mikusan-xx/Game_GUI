@@ -1,4 +1,4 @@
-class Companion {
+public class Companion {
     private String name;
 
     public Companion(String name) {
