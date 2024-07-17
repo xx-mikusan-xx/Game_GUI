@@ -28,7 +28,6 @@ public class CharacterSelectionScreen extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Name label and text field
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel nameLabel = new JLabel("Name:");
@@ -39,7 +38,6 @@ public class CharacterSelectionScreen extends JPanel {
         nameField = new JTextField(15);
         formPanel.add(nameField, gbc);
 
-        // Gender label and radio buttons
         gbc.gridx = 0;
         gbc.gridy = 1;
         JLabel genderLabel = new JLabel("Gender:");
