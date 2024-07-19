@@ -22,8 +22,8 @@ public class WeaponSelectionScreen extends JPanel {
         weaponPanel.setLayout(new GridLayout(3, 1));
 
         weaponPanel.add(createWeaponPanel("剣", "img/sword.png", 15));
-        weaponPanel.add(createWeaponPanel("弓", "img/bow.png", 20));
-        weaponPanel.add(createWeaponPanel("魔法の杖", "img/stick.png", 10));
+        weaponPanel.add(createWeaponPanel("斧", "img/axe.png", 20));
+        weaponPanel.add(createWeaponPanel("弓", "img/bow.png", 10));
 
         add(weaponPanel, BorderLayout.CENTER);
     }
@@ -36,7 +36,7 @@ public class WeaponSelectionScreen extends JPanel {
         nameLabel.setFont(new Font("Serif", Font.BOLD, 24));
         panel.add(nameLabel, BorderLayout.WEST);
 
-        ImageIcon weaponIcon = new ImageIcon(imagePath);
+        ImageIcon weaponIcon = loadAndResizeImage(imagePath, 500, 500);
         JLabel imageLabel = new JLabel(weaponIcon);
         panel.add(imageLabel, BorderLayout.CENTER);
 
@@ -52,12 +52,20 @@ public class WeaponSelectionScreen extends JPanel {
         return panel;
     }
 
+    private ImageIcon loadAndResizeImage(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(path);
+        Image img = icon.getImage();
+        Image resizedImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
+    }
+
     private void selectWeapon(String weaponName, int weaponPower) {
         Player player = GameManager.getInstance().getPlayer();
         player.setWeapon(weaponName);
         Weapon weapon = new Weapon(weaponName, weaponPower);
         GameManager.getInstance().setWeapon(weapon);
 
+        // 次のチャプターに遷移
         if (frame instanceof Main) {
             ((Main) frame).switchToChapter1();
         }

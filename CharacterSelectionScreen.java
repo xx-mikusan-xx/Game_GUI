@@ -7,8 +7,6 @@ public class CharacterSelectionScreen extends JPanel {
 
     private JFrame frame;
     private JTextField nameField;
-    private JRadioButton maleButton;
-    private JRadioButton femaleButton;
 
     public CharacterSelectionScreen(JFrame frame) {
         this.frame = frame;
@@ -45,17 +43,6 @@ public class CharacterSelectionScreen extends JPanel {
         formPanel.add(genderLabel, gbc);
 
         gbc.gridx = 1;
-        JPanel genderPanel = new JPanel();
-        maleButton = new JRadioButton("Male");
-        femaleButton = new JRadioButton("Female");
-        ButtonGroup genderGroup = new ButtonGroup();
-        genderGroup.add(maleButton);
-        genderGroup.add(femaleButton);
-        genderPanel.add(maleButton);
-        genderPanel.add(femaleButton);
-        formPanel.add(genderPanel, gbc);
-
-        add(formPanel, BorderLayout.CENTER);
 
         // Start game button
         JPanel buttonPanel = new JPanel();
@@ -72,16 +59,13 @@ public class CharacterSelectionScreen extends JPanel {
     }
 
     private void startGame() {
-        String name = nameField.getText();
-        String gender = maleButton.isSelected() ? "Male" : "Female";
-        
-        if (name.isEmpty() || (!maleButton.isSelected() && !femaleButton.isSelected())) {
-            JOptionPane.showMessageDialog(this, "Please enter a name and select a gender.", "Error", JOptionPane.ERROR_MESSAGE);
+        String name = nameField.getText();        
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a name.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         Player player = new Player(name, 100, 50, 20);
-        player.setGender(gender);
         GameManager.getInstance().setPlayer(player);
 
         frame.getContentPane().removeAll();

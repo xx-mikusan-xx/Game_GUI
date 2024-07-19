@@ -8,6 +8,6 @@ public class Battle {
 
     public boolean escape() {
         Random rand = new Random();
-        return rand.nextBoolean();
+        return rand.nextInt(100) < 50;
     }
 }

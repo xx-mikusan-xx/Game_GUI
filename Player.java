@@ -1,25 +1,21 @@
+// Player.java
 public class Player {
     private String name;
-    private String gender;
-    private String weapon;
-    private int experience;
     private int hp;
     private int mp;
+    private int experience;
     private int attackPower;
 
-    public Player(String name, int experience, int hp, int mp) {
+    public Player(String name, int hp, int mp, int attackPower) {
         this.name = name;
-        this.experience = experience;
         this.hp = hp;
         this.mp = mp;
+        this.experience = 0;
+        this.attackPower = attackPower;
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getHp() {
@@ -30,14 +26,6 @@ public class Player {
         this.hp = hp;
     }
 
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
     public int getMp() {
         return mp;
     }
@@ -46,20 +34,12 @@ public class Player {
         this.mp = mp;
     }
 
-    public String getGender() {
-        return gender;
+    public int getExperience() {
+        return experience;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getWeapon() {
-        return weapon;
-    }
-
-    public void setWeapon(String weapon) {
-        this.weapon = weapon;
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public int getAttackPower() {
@@ -68,15 +48,5 @@ public class Player {
 
     public void setAttackPower(int attackPower) {
         this.attackPower = attackPower;
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name='" + this.name + '\'' +
-                ", experience='" + this.experience + '\'' +
-                ", hp='" + this.hp + '\'' +
-                ", mp='" + this.mp + '\'' +
-                '}';
     }
 }

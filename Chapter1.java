@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Chapter1 extends JPanel {
@@ -25,21 +23,11 @@ public class Chapter1 extends JPanel {
     private void initUI() {
         setLayout(new BorderLayout());
 
-        // たたかう・逃げるボタン
+        // Combat buttons
         fightButton = new JButton("たたかう");
         escapeButton = new JButton("逃げる");
-        fightButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                battle1(true);
-            }
-        });
-        escapeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                battle1(false);
-            }
-        });
+        fightButton.addActionListener(e -> battle1(true));
+        escapeButton.addActionListener(e -> battle1(false));
 
         JPanel actionPanel = new JPanel();
         actionPanel.add(fightButton);
@@ -52,8 +40,9 @@ public class Chapter1 extends JPanel {
 
     private void battle1(boolean fight) {
         if (fight) {
-            Battle battle1 = new Battle();
-            battle1.fight(player, 20);
+            JOptionPane.showMessageDialog(this, "経験値: 100ポイント\nアイテム: 闇のクリスタル, ヒーリングポーション x2");
+            player.setExperience(player.getExperience() + 100);
+            player.setHp(player.getHp() - 20);
         } else {
             Battle battle1 = new Battle();
             if (battle1.escape()) {
@@ -61,35 +50,22 @@ public class Chapter1 extends JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "逃げるのに失敗しました!");
                 battle1.fight(player, 20);
+                JOptionPane.showMessageDialog(this, "経験値: 100ポイント\nアイテム: 闇のクリスタル, ヒーリングポーション x2");
+                player.setExperience(player.getExperience() + 100);
+                player.setHp(player.getHp() - 20);
             }
         }
         selectPath1();
     }
 
     private void selectPath1() {
-        // 道選択ボタン
         leftButton = new JButton("左");
         straightButton = new JButton("直進");
         rightButton = new JButton("右");
 
-        leftButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleLeftPath();
-            }
-        });
-        straightButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleStraightPath();
-            }
-        });
-        rightButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleRightPath();
-            }
-        });
+        leftButton.addActionListener(e -> handleLeftPath());
+        straightButton.addActionListener(e -> handleStraightPath());
+        rightButton.addActionListener(e -> handleRightPath());
 
         JPanel pathPanel = new JPanel();
         pathPanel.add(leftButton);
@@ -100,25 +76,21 @@ public class Chapter1 extends JPanel {
     }
 
     private void handleLeftPath() {
-        Battle battle2 = new Battle();
-        battle2.fight(player, 10);  // 弱い敵
+        JOptionPane.showMessageDialog(this, "時間がかかって敵に遭遇しました。");
+        battle1(true);
     }
 
     private void handleStraightPath() {
         Battle battle3 = new Battle();
-        battle3.fight(player, 50);  // 強い敵
+        battle3.fight(player, 50);
         player.setExperience(player.getExperience() + 500);
-        weapon.setPower(weapon.getPower() + 10);  // 強い武器を手に入れる
+        JOptionPane.showMessageDialog(this, "貴重な武器「銀の剣」を手に入れました!");
     }
 
     private void handleRightPath() {
         Random rand = new Random();
-        if (companion.getName().equals("カルロス")) {
-            if (rand.nextInt(100) < 70) {
-                treasureBox();
-            } else {
-                handleTrap();
-            }
+        if (companion.getName().equals("カルロス") && rand.nextInt(100) < 70) {
+            treasureBox();
         } else {
             handleTrap();
         }
@@ -135,6 +107,7 @@ public class Chapter1 extends JPanel {
                     treasureBox();
                 } else {
                     player.setHp(player.getHp() - 30);
+                    JOptionPane.showMessageDialog(this, "罠が作動しました!");
                 }
                 break;
             case JOptionPane.NO_OPTION:
@@ -142,11 +115,12 @@ public class Chapter1 extends JPanel {
                     treasureBox();
                 } else {
                     player.setHp(player.getHp() - 10);
-                    treasureBox();
+                    JOptionPane.showMessageDialog(this, "魔法が誤作動しましたが、宝箱を開けました!");
                 }
                 break;
             case JOptionPane.CANCEL_OPTION:
-                player.setHp(player.getHp() - 3);
+                player.setHp(player.getHp() - 30);
+                JOptionPane.showMessageDialog(this, "罠が作動しましたが、宝箱を開けました!");
                 treasureBox();
                 break;
         }
@@ -163,8 +137,8 @@ public class Chapter1 extends JPanel {
                 JOptionPane.showMessageDialog(this, "魔法の指輪を手に入れました!");
                 break;
             case 1:
-                player.setHp(100); // 全回復と仮定
-                player.setMp(100); // 全回復と仮定
+                player.setHp(100);
+                player.setMp(100);
                 JOptionPane.showMessageDialog(this, "エリクサーを手に入れました!");
                 break;
             case 2:
