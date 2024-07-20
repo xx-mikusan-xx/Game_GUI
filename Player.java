@@ -5,6 +5,8 @@ public class Player {
     private int mp;
     private int experience;
     private int attackPower;
+    private String weapon;
+    private String gender;
 
     public Player(String name, int hp, int mp, int attackPower) {
         this.name = name;
@@ -49,4 +51,20 @@ public class Player {
     public void setAttackPower(int attackPower) {
         this.attackPower = attackPower;
     }
+
+    public String getGender(String gender){
+        return gender;
+    }
+
+    public void setGender(String gender){
+        this.gender = gender;
+    }
+
+    public void getWeapon(String weapon) {
+        this.weapon = weapon;
+    }
+    public String setWeapon(String weapon) {
+        return weapon;
+    }
+
 }
