@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Chapter1 extends JPanel {
@@ -7,156 +9,113 @@ public class Chapter1 extends JPanel {
     private Weapon weapon;
     private Companion companion;
 
-    private JButton fightButton;
-    private JButton escapeButton;
-    private JButton leftButton;
-    private JButton straightButton;
-    private JButton rightButton;
-
-    public Chapter1(Player player, Weapon weapon, Companion companion) {
+    public Chapter1(Player player, Weapon weapon) {
         this.player = player;
         this.weapon = weapon;
-        this.companion = companion;
         initUI();
     }
 
     private void initUI() {
         setLayout(new BorderLayout());
 
-        // Combat buttons
-        fightButton = new JButton("たたかう");
-        escapeButton = new JButton("逃げる");
-        fightButton.addActionListener(e -> battle1(true));
-        escapeButton.addActionListener(e -> battle1(false));
+        // Display introduction message
+        JOptionPane.showMessageDialog(this, "これからゲームが始まります。まずは仲間を選択しましょう。");
 
-        JPanel actionPanel = new JPanel();
-        actionPanel.add(fightButton);
-        actionPanel.add(escapeButton);
+        // Companion selection
+        selectCompanion();
 
-        add(actionPanel, BorderLayout.SOUTH);
-
-        battle1(true);
+        // Start first battle
+        firstBattle();
     }
 
-    private void battle1(boolean fight) {
-        if (fight) {
-            JOptionPane.showMessageDialog(this, "経験値: 100ポイント\nアイテム: 闇のクリスタル, ヒーリングポーション x2");
-            player.setExperience(player.getExperience() + 100);
-            player.setHp(player.getHp() - 20);
-        } else {
-            Battle battle1 = new Battle();
-            if (battle1.escape()) {
-                JOptionPane.showMessageDialog(this, "逃げるのに成功しました!");
-            } else {
-                JOptionPane.showMessageDialog(this, "逃げるのに失敗しました!");
-                battle1.fight(player, 20);
-                JOptionPane.showMessageDialog(this, "経験値: 100ポイント\nアイテム: 闇のクリスタル, ヒーリングポーション x2");
-                player.setExperience(player.getExperience() + 100);
-                player.setHp(player.getHp() - 20);
-            }
+    private void selectCompanion() {
+        String[] options = {"戦士 ライアン", "魔法使い エリス", "盗賊 カルロス"};
+        ImageIcon[] icons = {
+            new ImageIcon("path/ryan.png"),
+            new ImageIcon("path/eris.png"),
+            new ImageIcon("path/carlos.png")
+        };
+        JPanel panel = new JPanel(new GridLayout(1, 3));
+        
+        for (int i = 0; i < options.length; i++) {
+            panel.add(new JLabel(options[i], icons[i], SwingConstants.CENTER));
         }
-        selectPath1();
-    }
 
-    private void selectPath1() {
-        leftButton = new JButton("左");
-        straightButton = new JButton("直進");
-        rightButton = new JButton("右");
+        int choice = JOptionPane.showOptionDialog(this, panel, "仲間を選択してください",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
-        leftButton.addActionListener(e -> handleLeftPath());
-        straightButton.addActionListener(e -> handleStraightPath());
-        rightButton.addActionListener(e -> handleRightPath());
-
-        JPanel pathPanel = new JPanel();
-        pathPanel.add(leftButton);
-        pathPanel.add(straightButton);
-        pathPanel.add(rightButton);
-
-        add(pathPanel, BorderLayout.NORTH);
-    }
-
-    private void handleLeftPath() {
-        JOptionPane.showMessageDialog(this, "時間がかかって敵に遭遇しました。");
-        battle1(true);
-    }
-
-    private void handleStraightPath() {
-        Battle battle3 = new Battle();
-        battle3.fight(player, 50);
-        player.setExperience(player.getExperience() + 500);
-        JOptionPane.showMessageDialog(this, "貴重な武器「銀の剣」を手に入れました!");
-    }
-
-    private void handleRightPath() {
-        Random rand = new Random();
-        if (companion.getName().equals("カルロス") && rand.nextInt(100) < 70) {
-            treasureBox();
-        } else {
-            handleTrap();
-        }
-    }
-
-    private void handleTrap() {
-        Object[] options = {"罠を解除", "リアナ王女の魔法", "罠を無視"};
-        int choice = JOptionPane.showOptionDialog(this, "罠に遭遇しました。どうしますか？", "選択", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
-        Random rand = new Random();
         switch (choice) {
-            case JOptionPane.YES_OPTION:
-                if (rand.nextInt(100) < 50) {
-                    treasureBox();
-                } else {
-                    player.setHp(player.getHp() - 30);
-                    JOptionPane.showMessageDialog(this, "罠が作動しました!");
-                }
-                break;
-            case JOptionPane.NO_OPTION:
-                if (rand.nextInt(100) < 50) {
-                    treasureBox();
-                } else {
-                    player.setHp(player.getHp() - 10);
-                    JOptionPane.showMessageDialog(this, "魔法が誤作動しましたが、宝箱を開けました!");
-                }
-                break;
-            case JOptionPane.CANCEL_OPTION:
-                player.setHp(player.getHp() - 30);
-                JOptionPane.showMessageDialog(this, "罠が作動しましたが、宝箱を開けました!");
-                treasureBox();
-                break;
-        }
-    }
-
-    private void treasureBox() {
-        Random rand = new Random();
-        int item = rand.nextInt(3);
-
-        switch (item) {
             case 0:
-                player.setMp(player.getMp() + 10);
-                player.setAttackPower((int) (player.getAttackPower() * 1.05));
-                JOptionPane.showMessageDialog(this, "魔法の指輪を手に入れました!");
+                companion = new Companion("ライアン", "攻撃力が2, スキル: 攻撃引き受け");
                 break;
             case 1:
-                player.setHp(100);
-                player.setMp(100);
-                JOptionPane.showMessageDialog(this, "エリクサーを手に入れました!");
+                companion = new Companion("エリス", "スキル: 敵全体に氷属性ダメージ");
                 break;
             case 2:
-                JOptionPane.showMessageDialog(this, "銀の鍵を手に入れました!");
+                companion = new Companion("カルロス", "スキル: 罠を見破る");
+                break;
+            default:
+                companion = new Companion("ライアン", "攻撃力が2, スキル: 攻撃引き受け");
                 break;
         }
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Chapter 1");
-        Player player = new Player("勇者", 100, 50, 20);
-        Weapon weapon = new Weapon("剣", 10);
-        Companion companion = new Companion("カルロス");
+    private void firstBattle() {
+        ImageIcon enemyIcon = new ImageIcon("path/enemy1.png");
+        JLabel enemyLabel = new JLabel(enemyIcon);
 
-        Chapter1 chapter1 = new Chapter1(player, weapon, companion);
-        frame.add(chapter1);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        JOptionPane.showMessageDialog(this, enemyLabel, "敵が現れた！", JOptionPane.PLAIN_MESSAGE);
+
+        int result = JOptionPane.showConfirmDialog(this, "戦う？", "戦闘開始", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            fightEnemy();
+        } else {
+            endGame();
+        }
+    }
+
+    private void fightEnemy() {
+        int enemyHp = 30; 
+        Random rand = new Random();
+
+        while (enemyHp > 0 && player.getHp() > 0) {
+            enemyHp -= weapon.getPower();
+            player.setHp(player.getHp() - rand.nextInt(5)); 
+
+            if (companion.getName().equals("エリス")) {
+                enemyHp -= 10; 
+            }
+
+            // Update HP and show status
+            JOptionPane.showMessageDialog(this, "敵HP: " + enemyHp + "\nプレイヤーHP: " + player.getHp());
+
+            if (enemyHp <= 0) {
+                JOptionPane.showMessageDialog(this, "勝利しました！");
+                return;
+            }
+
+            if (player.getHp() <= 0) {
+                JOptionPane.showMessageDialog(this, "敗北しました！");
+                endGame();
+                return;
+            }
+        }
+    }
+
+    private void endGame() {
+        int choice = JOptionPane.showConfirmDialog(this, "ゲームをやめますか？", "終了",
+                JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else {
+            resetGame();
+        }
+    }
+
+    private void resetGame() {
+        player.setHp(100);
+        initUI();
     }
 }

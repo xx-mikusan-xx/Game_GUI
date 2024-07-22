@@ -41,9 +41,8 @@ public class Main extends JFrame {
     public void switchToChapter1() {
         Player player = GameManager.getInstance().getPlayer();
         Weapon weapon = GameManager.getInstance().getWeapon();
-        Companion companion = new Companion("カルロス");
         getContentPane().removeAll();
-        add(new Chapter1(player, weapon, companion));
+        add(new Chapter1(player, weapon));
         revalidate();
         repaint();
     }
