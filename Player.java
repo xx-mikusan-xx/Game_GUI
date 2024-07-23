@@ -45,7 +45,7 @@ public class Player {
         return experience;
     }
 
-    public void addExperience(int experience) {
+    public void setExperience(int experience) {
         this.experience += experience;
     }
 
