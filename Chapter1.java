@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 class BackgroundPanel extends JPanel {
@@ -84,10 +82,8 @@ public class Chapter1 extends JPanel {
     
         updateStatus();
     
-        // メニューバー作成
         createMenuBar();
     
-        // ゲーム開始
         appendLog("これからゲームが始まります。まずは仲間を選択しましょう。");
         selectCompanion();
         startFirstBattle();
@@ -175,7 +171,7 @@ public class Chapter1 extends JPanel {
     
         // 戦闘進行UIの表示
         showBattleUI();
-        currentEnemy = new Enemy("スライム", 30, 5);
+        currentEnemy = new Enemy("モンスター", 30, 5);
     }
 
     private void showBattleUI() {
@@ -345,7 +341,7 @@ public class Chapter1 extends JPanel {
                 break;
             case "まっすぐ進む":
                 appendLog("経験値とアイテムを手に入れました！");
-                player.addExperience(500);
+                player.setExperience(500);
                 player.addItem("銀の剣");
                 updateStatus();
                 break;
@@ -468,26 +464,25 @@ public class Chapter1 extends JPanel {
         ImageIcon originalIcon = new ImageIcon(imagePath);
         Image originalImage = originalIcon.getImage();
     
-        int newWidth = 200; // 適切なサイズに調整
-        int newHeight = -1; // アスペクト比を維持
+        int newWidth = 200; 
+        int newHeight = -1;
     
         Image resizedImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
     
         enemyImageLabel.setIcon(resizedIcon);
     
-        // 中央に配置、少し下に配置するために空のラベルを追加
         JPanel centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setOpaque(false);
     
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1; // 1行目に配置
+        gbc.gridy = 1; 
         centerPanel.add(enemyImageLabel, gbc);
     
         // 上部に空のラベルを追加
         JLabel emptyLabel = new JLabel();
-        gbc.gridy = 0; // 0行目に空のラベルを配置
+        gbc.gridy = 0; 
         centerPanel.add(emptyLabel, gbc);
     
         backgroundPanel.removeAll();
