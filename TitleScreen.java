@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TitleScreen extends JPanel {
-
     private JFrame frame;
 
     public TitleScreen(JFrame frame) {
@@ -48,8 +47,8 @@ public class TitleScreen extends JPanel {
 
     private void startCharacterSelection() {
         frame.getContentPane().removeAll();
-        CharacterSelectionScreen CharacterSelectionScreen = new CharacterSelectionScreen(frame);
-        frame.add(CharacterSelectionScreen);
+        CharacterSelectionScreen characterSelectionScreen = new CharacterSelectionScreen(frame);
+        frame.add(characterSelectionScreen);
         frame.revalidate();
         frame.repaint();
     }

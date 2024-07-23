@@ -28,7 +28,6 @@ public class CharacterSelectionScreen extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Name label and text field
         gbc.gridx = 0;
         gbc.gridy = 0;
         JLabel nameLabel = new JLabel("Name:");
@@ -39,7 +38,6 @@ public class CharacterSelectionScreen extends JPanel {
         nameField = new JTextField(15);
         formPanel.add(nameField, gbc);
 
-        // Gender label and radio buttons
         gbc.gridx = 0;
         gbc.gridy = 1;
         JLabel genderLabel = new JLabel("Gender:");
@@ -76,18 +74,19 @@ public class CharacterSelectionScreen extends JPanel {
     private void startGame() {
         String name = nameField.getText();
         String gender = maleButton.isSelected() ? "Male" : "Female";
-
+        
         if (name.isEmpty() || (!maleButton.isSelected() && !femaleButton.isSelected())) {
             JOptionPane.showMessageDialog(this, "Please enter a name and select a gender.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Player player = new Player(name, gender, null);
+        Player player = new Player(name, 100, 50, 20);
+        player.setGender(gender);
         GameManager.getInstance().setPlayer(player);
 
         frame.getContentPane().removeAll();
-        WeaponSelectionPanel weaponSelectionPanel = new WeaponSelectionPanel(frame);
-        frame.add(weaponSelectionPanel);
+        GamePanel GamePanel = new GamePanel();
+        frame.add(GamePanel);
         frame.revalidate();
         frame.repaint();
     }
