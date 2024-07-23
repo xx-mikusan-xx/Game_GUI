@@ -1,4 +1,6 @@
-// Player.java
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private String name;
     private int hp;
@@ -7,6 +9,7 @@ public class Player {
     private int attackPower;
     private String weapon;
     private String gender;
+    private List<String> items; // アイテムリストの追加
 
     public Player(String name, int hp, int mp, int attackPower) {
         this.name = name;
@@ -14,7 +17,9 @@ public class Player {
         this.mp = mp;
         this.experience = 0;
         this.attackPower = attackPower;
+        this.items = new ArrayList<>(); // アイテムリストの初期化
     }
+
 
     public String getName() {
         return name;
@@ -40,8 +45,8 @@ public class Player {
         return experience;
     }
 
-    public void setExperience(int experience) {
-        this.experience = experience;
+    public void addExperience(int experience) {
+        this.experience += experience;
     }
 
     public int getAttackPower() {
@@ -52,19 +57,38 @@ public class Player {
         this.attackPower = attackPower;
     }
 
-    public String getGender(String gender){
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender){
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public void getWeapon(String weapon) {
-        this.weapon = weapon;
-    }
-    public String setWeapon(String weapon) {
+    public String getWeapon() {
         return weapon;
     }
 
+    public void setWeapon(String weapon) {
+        this.weapon = weapon;
+    }
+
+    public void addItem(String item) {
+        items.add(item);
+    }
+
+    public List<String> getItems() {
+        return items;
+    }
+
+    public void showItems() {
+        if (items.isEmpty()) {
+            System.out.println("所持しているアイテムはありません。");
+        } else {
+            System.out.println("所持アイテム:");
+            for (String item : items) {
+                System.out.println("- " + item);
+            }
+        }
+    }
 }
