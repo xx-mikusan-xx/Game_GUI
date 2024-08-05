@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class WeaponSelectionScreen extends JPanel {
     private JFrame frame;
@@ -19,10 +19,10 @@ public class WeaponSelectionScreen extends JPanel {
         add(titleLabel, BorderLayout.NORTH);
 
         JPanel weaponPanel = new JPanel();
-        weaponPanel.setLayout(new GridLayout(3, 1));
+        weaponPanel.setLayout(new GridLayout(1, 3)); // 横に3つ並べる
 
         weaponPanel.add(createWeaponPanel("剣", "img/sword.png", 15));
-        weaponPanel.add(createWeaponPanel("斧", "img/axe.png", 20));
+        weaponPanel.add(createWeaponPanel("杖", "img/stick.png", 20));
         weaponPanel.add(createWeaponPanel("弓", "img/bow.png", 10));
 
         add(weaponPanel, BorderLayout.CENTER);
@@ -34,20 +34,18 @@ public class WeaponSelectionScreen extends JPanel {
 
         JLabel nameLabel = new JLabel(weaponName, SwingConstants.CENTER);
         nameLabel.setFont(new Font("Serif", Font.BOLD, 24));
-        panel.add(nameLabel, BorderLayout.WEST);
+        panel.add(nameLabel, BorderLayout.NORTH);
 
-        ImageIcon weaponIcon = loadAndResizeImage(imagePath, 500, 500);
+        ImageIcon weaponIcon = loadAndResizeImage(imagePath, 200, 200); // サイズを調整
         JLabel imageLabel = new JLabel(weaponIcon);
-        panel.add(imageLabel, BorderLayout.CENTER);
-
-        JButton selectButton = new JButton("選択");
-        selectButton.addActionListener(new ActionListener() {
+        imageLabel.setHorizontalAlignment(JLabel.CENTER); // 画像を中央に配置
+        imageLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 selectWeapon(weaponName, weaponPower);
             }
         });
-        panel.add(selectButton, BorderLayout.EAST);
+        panel.add(imageLabel, BorderLayout.CENTER);
 
         return panel;
     }
