@@ -167,7 +167,7 @@ public class Chapter1 extends JPanel {
     private void startFirstBattle() {
         changeBackground("img/battle_background.png");
         setEnemyImage("img/enemy1.png");
-        appendLog("スライムが現れました！戦闘が始まります。");
+        appendLog("モンスターが現れました！戦闘が始まります。");
     
         // 戦闘進行UIの表示
         showBattleUI();
@@ -334,7 +334,7 @@ public class Chapter1 extends JPanel {
         switch (path) {
             case "左の道":
                 appendLog("時間がかかって敵に遭遇しました。");
-                startBattle(new Enemy("ゴブリン", 50, 10));
+                startBattle(new Enemy("モンスター", 50, 10));
                 break;
             case "右の道":
                 handleRightPath();
